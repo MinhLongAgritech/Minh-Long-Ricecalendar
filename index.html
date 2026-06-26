@@ -3330,7 +3330,9 @@ function initCompare(){
 
     if(!document.getElementById('c-forecast')) return;
 
-    mk('c-forecast','bar',{
+    
+function fmtFull(v){if(!v)return '';return Math.round(v*1e9).toLocaleString('vi-VN')+'đ';}
+mk('c-forecast','bar',{
       labels: allLbls,
       datasets:[
         // DX bars — xanh dương nhạt mờ
@@ -3348,7 +3350,7 @@ function initCompare(){
           borderSkipped:false,
           datalabels:{display:true,anchor:'end',align:'end',
             color:'rgba(0,220,255,.9)',font:{size:9,weight:'700'},
-            formatter:v=>v?v.toFixed(1):'',offset:2}
+            formatter:v=>v?fmtFull(v):'',offset:2}
         },
         // HT actual bars — vàng đậm
         { label:'Hè Thu (thực tế)',
@@ -3365,7 +3367,7 @@ function initCompare(){
           borderSkipped:false,
           datalabels:{display:true,anchor:'end',align:'end',
             color:'#ffe600',font:{size:10,weight:'800'},
-            formatter:v=>v?v.toFixed(1):'',offset:2}
+            formatter:v=>v?fmtFull(v):'',offset:2}
         },
         // HT forecast bars — xanh lá viền đứt
         { label:'Dự báo (T6–T8)',
@@ -3377,7 +3379,7 @@ function initCompare(){
           borderDash:[6,3],
           datalabels:{display:true,anchor:'end',align:'end',
             color:'#00ffaa',font:{size:10,weight:'800'},
-            formatter:v=>v?'~'+v.toFixed(1):'',offset:2}
+            formatter:v=>v?'~'+fmtFull(v):'',offset:2}
         },
         // Line trend HT
         { type:'line', label:'Xu hướng HT',
@@ -3405,7 +3407,7 @@ function initCompare(){
             label:c=>{
               const v=c.parsed.y;
               if(v===null||v===undefined) return null;
-              return `  ${c.dataset.label}: ${v.toFixed(2)} tỷ`;
+              return `  ${c.dataset.label}: ${fmtFull(v)}`;
             }
           }
         }
@@ -3424,7 +3426,7 @@ function initCompare(){
         },
         y:{
           grid:{color:'rgba(0,255,170,.07)',drawBorder:false},
-          ticks:{color:'#a0c8b8',callback:v=>v===0?'':v+'ty',font:{size:9}},
+          ticks:{color:'#a0c8b8',callback:v=>v===0?'':fmtFull(v),font:{size:9}},
           suggestedMax: Math.max(...monsFull.filter(Boolean))*1.25,
           border:{display:false}
         }
